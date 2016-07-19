@@ -8,22 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		113326CC1D3DE48900D43634 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113326CB1D3DE48900D43634 /* AppDelegate.swift */; };
-		113326CE1D3DE48900D43634 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113326CD1D3DE48900D43634 /* ViewController.swift */; };
 		113326D11D3DE48900D43634 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 113326CF1D3DE48900D43634 /* Main.storyboard */; };
 		113326D31D3DE48900D43634 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 113326D21D3DE48900D43634 /* Assets.xcassets */; };
 		113326D61D3DE48900D43634 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 113326D41D3DE48900D43634 /* LaunchScreen.storyboard */; };
-		113326DF1D3E06F700D43634 /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 113326DE1D3E06F700D43634 /* AppIcon.png */; };
+		113326E11D3E2DCE00D43634 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113326E01D3E2DCE00D43634 /* FirstViewController.swift */; };
+		113326E31D3E2DDC00D43634 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113326E21D3E2DDC00D43634 /* SecondViewController.swift */; };
+		113326E51D3E329E00D43634 /* qr.png in Resources */ = {isa = PBXBuildFile; fileRef = 113326E41D3E329E00D43634 /* qr.png */; };
+		113326E71D3E351500D43634 /* EasyPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113326E61D3E351500D43634 /* EasyPresentAnimationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		113326C81D3DE48900D43634 /* TransEasy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TransEasy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		113326CB1D3DE48900D43634 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		113326CD1D3DE48900D43634 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		113326D01D3DE48900D43634 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		113326D21D3DE48900D43634 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		113326D51D3DE48900D43634 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		113326D71D3DE48900D43634 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		113326DE1D3E06F700D43634 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon.png; sourceTree = "<group>"; };
+		113326E01D3E2DCE00D43634 /* FirstViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		113326E21D3E2DDC00D43634 /* SecondViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		113326E41D3E329E00D43634 /* qr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qr.png; sourceTree = "<group>"; };
+		113326E61D3E351500D43634 /* EasyPresentAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasyPresentAnimationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,12 +44,13 @@
 		113326BF1D3DE48900D43634 = {
 			isa = PBXGroup;
 			children = (
-				113326DE1D3E06F700D43634 /* AppIcon.png */,
 				113326DD1D3DEB0200D43634 /* Source */,
 				113326CA1D3DE48900D43634 /* TransEasy */,
 				113326C91D3DE48900D43634 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		113326C91D3DE48900D43634 /* Products */ = {
 			isa = PBXGroup;
@@ -58,12 +63,14 @@
 		113326CA1D3DE48900D43634 /* TransEasy */ = {
 			isa = PBXGroup;
 			children = (
+				113326E41D3E329E00D43634 /* qr.png */,
 				113326CB1D3DE48900D43634 /* AppDelegate.swift */,
-				113326CD1D3DE48900D43634 /* ViewController.swift */,
 				113326CF1D3DE48900D43634 /* Main.storyboard */,
 				113326D21D3DE48900D43634 /* Assets.xcassets */,
 				113326D41D3DE48900D43634 /* LaunchScreen.storyboard */,
 				113326D71D3DE48900D43634 /* Info.plist */,
+				113326E01D3E2DCE00D43634 /* FirstViewController.swift */,
+				113326E21D3E2DDC00D43634 /* SecondViewController.swift */,
 			);
 			path = TransEasy;
 			sourceTree = "<group>";
@@ -71,6 +78,7 @@
 		113326DD1D3DEB0200D43634 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				113326E61D3E351500D43634 /* EasyPresentAnimationController.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -133,7 +141,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				113326DF1D3E06F700D43634 /* AppIcon.png in Resources */,
+				113326E51D3E329E00D43634 /* qr.png in Resources */,
 				113326D61D3DE48900D43634 /* LaunchScreen.storyboard in Resources */,
 				113326D31D3DE48900D43634 /* Assets.xcassets in Resources */,
 				113326D11D3DE48900D43634 /* Main.storyboard in Resources */,
@@ -147,8 +155,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				113326CE1D3DE48900D43634 /* ViewController.swift in Sources */,
+				113326E31D3E2DDC00D43634 /* SecondViewController.swift in Sources */,
 				113326CC1D3DE48900D43634 /* AppDelegate.swift in Sources */,
+				113326E71D3E351500D43634 /* EasyPresentAnimationController.swift in Sources */,
+				113326E11D3E2DCE00D43634 /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
