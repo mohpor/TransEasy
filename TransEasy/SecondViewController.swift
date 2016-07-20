@@ -10,7 +10,8 @@ import UIKit
 
 class SecondViewController: UIViewController {
 
-    @IBOutlet weak var qiImage: UIImageView!
+    @IBOutlet weak var qrImage: UIImageView!
+    @IBOutlet weak var qrTextView: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -18,6 +19,9 @@ class SecondViewController: UIViewController {
     @IBAction func closeButtonClicked(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)        
     }
-    
+
+  override func preferredStatusBarStyle() -> UIStatusBarStyle {
+    return .LightContent
+  }
     
 }

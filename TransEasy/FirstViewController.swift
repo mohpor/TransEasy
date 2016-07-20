@@ -13,8 +13,10 @@ private let toSecondViewSegueID = "toSecondViewSegue"
 class FirstViewController: UIViewController {
 
     @IBOutlet weak var qrButton: UIButton!
+    @IBOutlet weak var qrLabel: UILabel!
   
     var easyPresentAnimationComtroller = EasyPresentAnimationController()
+    var easyDismissAnimationComtroller = EasyDismissAnimationController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,11 +59,25 @@ extension FirstViewController: UIViewControllerTransitioningDelegate {
       print("Invalid target controller")
       return nil
     }
-    
+    easyPresentAnimationComtroller.blurEffectStyle = UIBlurEffectStyle.Dark
+    easyPresentAnimationComtroller.duration = 0.4
     easyPresentAnimationComtroller.originalView = qrButton
-    easyPresentAnimationComtroller.destinationView = secondVC.qiImage
+    easyPresentAnimationComtroller.destinationView = secondVC.qrImage
 
     return easyPresentAnimationComtroller
+  }
+  
+  func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    guard let secondVC = dismissed as? SecondViewController else {
+      print("Invalid target controller")
+      return nil
+    }
+    easyDismissAnimationComtroller.duration = 0.4
+    easyDismissAnimationComtroller.originalView = secondVC.qrImage
+    easyDismissAnimationComtroller.destinationView = qrButton
+
+    return easyDismissAnimationComtroller
+    
   }
   
 }
