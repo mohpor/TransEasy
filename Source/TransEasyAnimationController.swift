@@ -44,7 +44,7 @@ class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedTransiti
     
     let finalFrame = destView.frame
     let originalFrame = originView.frame
-    let fromSnapshot = originView.snapshotViewAfterScreenUpdates(false)
+    let fromSnapshot = UIImageView(image: originView.snapshot()) //originView.snapshotViewAfterScreenUpdates(false)
     
     let toSnapshot = UIImageView.init(image: destView.snapshot())
     
@@ -61,7 +61,7 @@ class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedTransiti
     
     
     if let blurStyle = blurEffectStyle {
-      let fromWholeSnapshot = fromVC.view.snapshotViewAfterScreenUpdates(true)
+      let fromWholeSnapshot = UIImageView(image: fromVC.view.snapshot())
       let effectView = UIVisualEffectView(effect: UIBlurEffect(style: blurStyle))
       effectView.frame = transitionContext.finalFrameForViewController(toVC)
       effectView.addSubview(fromWholeSnapshot)
@@ -148,17 +148,15 @@ class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedTransiti
     fromSnapshot.frame = originalFrame
     toSnapshot.frame = originalFrame
     
-    destView.hidden = true
     originView.hidden = true
-    
-    
-    let fromWholeSnapshot = fromVC.view.snapshotViewAfterScreenUpdates(true)
-    
+    destView.hidden = true
+    let fromWholeSnapshot = UIImageView(image: fromVC.view.snapshot())    
     
     containerView.addSubview(toVC.view)
     containerView.addSubview(fromWholeSnapshot)
     containerView.addSubview(fromSnapshot)
     containerView.addSubview(toSnapshot)
+
     
     
     
