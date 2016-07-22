@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  TransEasy
 //
-//  Created by Mohammad on 7/19/16.
+//  Created by Mohammad Porooshani on 7/21/16.
 //  Copyright © 2016 Porooshani. All rights reserved.
 //
 

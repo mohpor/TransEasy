@@ -2,13 +2,13 @@
 //  SecondViewController.swift
 //  TransEasy
 //
-//  Created by Mohammad on 7/19/16.
+//  Created by Mohammad Porooshani on 7/21/16.
 //  Copyright © 2016 Porooshani. All rights reserved.
 //
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class SecondViewController: UIViewController, EasyTransDestinationViewControllerProtocol {
 
     @IBOutlet weak var qrImage: UIImageView!
     @IBOutlet weak var qrTextView: UITextView!
@@ -23,5 +23,10 @@ class SecondViewController: UIViewController {
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
     return .LightContent
   }
+  
+  func destinationView() -> UIView {
+    return qrImage
+  }
+  
     
 }
