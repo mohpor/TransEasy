@@ -10,7 +10,7 @@
 # TransEasy
 An easy to implement custom transitions.
 <div align="center">
-![demo](images/demo.gif)
+<img src="images/demo.gif" alt="demo"/>
 </div>
 ### Overview:
 
