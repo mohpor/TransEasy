@@ -61,6 +61,18 @@ override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
   }
 
+```
+
+and in the destination view controller:
+
+```swift
+extension SecondViewController: TransEasyDestinationViewControllerProtocol {
+
+  func transEasyDestinationView() -> UIView {
+    return qrImage
+  }
+
+}
 
 ```
 
