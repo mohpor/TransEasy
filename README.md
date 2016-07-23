@@ -16,13 +16,117 @@ An easy to implement custom transitions.
 
 This library will help easily customize your transitions (Modal and Push) so that you can be able to move your views from one to another.
 
+---
+### How to setup:
+
+#### Cocoapods (Recommended)
+
+1. In your pod file add:
+```
+pod 'TransEasy'
+```
+2. In terminal:
+```
+$ pod update
+```
+
+#### Manual
+
+Clone or download this repo, add files inside `Source` folder to your project.
+
+---
+
+### How to use:
+
+#### Real easy approach:
+
+In this method you will setup the transition inside the `prepareForSegue(_:sender)` using provided `UIViewController` extension.
+
+```Swift_2
+override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+    guard let segueID = segue.identifier else {
+      print("Could not verify the segue's identity")
+      return
+    }    
+
+    switch segueID {
+    case toSecondViewSegueID:
+
+      // This method adds easy trans to the SecondViewController using the provided options for present and dismiss.
+      setupEasyTransition(on: segue.destinationViewController, presentOptions: TransEasyPresentOptions(duration: 0.4, sourceView: qrButton, blurStyle: UIBlurEffectStyle.Dark), dismissOptions: TransEasyDismissOptions(duration: 0.4, destinationView: qrButton))
+    default:
+      print("Unknown segue!")
+    }
+
+  }
+
+
+```
+
+#### Not so easy approach:
+Alternatively, you can implement the `transitioningDelegate` yourself and just use the animator controller.
+ * In your view controller add required properties to hold animators:
+
+```Swift_2
+
+    let presentAnimator: EasyPresentAnimationController = EasyPresentAnimationController()
+    let dismissAnimator: EasyDismissAnimationController = EasyDismissAnimationController()    
+```
+
+* In `prepareForSegue`, set the `transitioningDelegate`:
+
+```Swift_2
+
+segue.destinationViewController.transitioningDelegate = self
+
+
+```
+
+ * Extend your view controller to use the **TransEasy** transitions:
+
+ ```Swift_2
+
+ extension ViewController: UIViewControllerTransitioningDelegate {
+
+     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+         guard let secondVC = presented as? SecondViewController else {
+             return nil
+         }
+
+         presentAnimator.duration = 0.4
+         presentAnimator.originalView = qrButton
+         presentAnimator.destinationView = secondVC.imgView
+         presentAnimator.blurEffectStyle = .Dark
+
+
+         return presentAnimator
+     }
+
+     func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+         guard let secondVC = dismissed as? SecondViewController else {
+             return nil
+         }
+         dismissAnimator.duration = 0.4
+         dismissAnimator.originalView = secondVC.imgView
+         dismissAnimator.destinationView = qrButton
+
+         return dismissAnimator
+     }
+
+ }
+
+ ```
+---
+
 ### TODO:
 
-- [ ] Setup basic Structure for project.
-- [ ] Create demo views and make the relations.
-- [ ] Create Required Classes and Protocols
-- [ ] Add License file.
-- [ ] Add Documentations.
+- [*] Setup basic Structure for project.
+- [*] Create demo views and make the relations.
+- [*] Create Required Classes and Protocols
+- [*] Add License file.
+- [*] Add Documentations.
 - [ ] Add CI.
-- [ ] Add Pod support.
-
+- [*] Add Pod support.

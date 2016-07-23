@@ -30,23 +30,23 @@
 import UIKit
 
 /// Handles animations reqired for the TransEasy Present.
-class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
   
   /// The view animation would use as starting point.
-  var originalView: UIView?
+  public var originalView: UIView?
   /// The view that originalView will land to.
-  var destinationView: UIView?
+  public var destinationView: UIView?
   /// The duration of animation.
-  var duration: NSTimeInterval = 0.4
+  public var duration: NSTimeInterval = 0.4
   /// The background's blur style. If nil, won't add blur effect.
-  var blurEffectStyle: UIBlurEffectStyle?
+  public var blurEffectStyle: UIBlurEffectStyle?
   
   
-  func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+  public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
     return duration
   }
   
-  func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+  public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
     
     // Check the integrity of context
     guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),
@@ -136,20 +136,20 @@ class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedTransiti
 }
 
 /// Handles animations reqired for the TransEasy Dismiss.
-class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+public class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
   
   // The source view dimiss transition starts from.
-  var originalView: UIView?
+  public var originalView: UIView?
   // The view that dimiss will land to.
-  var destinationView: UIView?
+  public var destinationView: UIView?
   // Transitions duration.
-  var duration: NSTimeInterval = 0.4
+  public var duration: NSTimeInterval = 0.4
   
-  func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+  public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
     return duration
   }
   
-  func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+  public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
     
     // Check the integrity of context
     guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),
