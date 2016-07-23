@@ -29,7 +29,7 @@
 
 import UIKit
 
-class SecondViewController: UIViewController, EasyTransDestinationViewControllerProtocol {
+class SecondViewController: UIViewController, TransEasyDestinationViewControllerProtocol {
 
     @IBOutlet weak var qrImage: UIImageView!
     @IBOutlet weak var qrTextView: UITextView!
@@ -45,7 +45,7 @@ class SecondViewController: UIViewController, EasyTransDestinationViewController
     return .LightContent
   }
   
-  func destinationView() -> UIView {
+  func transEasyDestinationView() -> UIView {
     return qrImage
   }
   
