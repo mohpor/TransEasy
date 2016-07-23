@@ -109,7 +109,7 @@ segue.destinationViewController.transitioningDelegate = self
 
          presentAnimator.duration = 0.4
          presentAnimator.originalView = qrButton
-         presentAnimator.destinationView = secondVC.imgView
+         presentAnimator.destinationView = secondVC.qrImage
          presentAnimator.blurEffectStyle = .Dark
 
 
@@ -122,7 +122,7 @@ segue.destinationViewController.transitioningDelegate = self
              return nil
          }
          dismissAnimator.duration = 0.4
-         dismissAnimator.originalView = secondVC.imgView
+         dismissAnimator.originalView = secondVC.qrImage
          dismissAnimator.destinationView = qrButton
 
          return dismissAnimator
