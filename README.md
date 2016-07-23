@@ -12,14 +12,14 @@ An easy to implement custom transitions.
 <div align="center">
 <img src="images/demo.gif" alt="demo"/>
 </div>
-### Overview:
+## Overview:
 
 This library will help easily customize your transitions (Modal and Push) so that you can be able to move your views from one to another.
 
 ---
-### How to setup:
+## How to setup:
 
-#### Cocoapods (Recommended)
+### Cocoapods (Recommended)
 
 1. In your pod file add:
 ```
@@ -36,9 +36,9 @@ Clone or download this repo, add files inside `Source` folder to your project.
 
 ---
 
-### How to use:
+## How to use:
 
-#### Real easy approach:
+### Real easy approach:
 
 In this method you will setup the transition inside the `prepareForSegue(_:sender)` using provided `UIViewController` extension.
 
@@ -76,7 +76,7 @@ extension SecondViewController: TransEasyDestinationViewControllerProtocol {
 
 ```
 
-#### Not so easy approach:
+### Not so easy approach:
 Alternatively, you can implement the `transitioningDelegate` yourself and just use the animator controller.
  * In your view controller add required properties to hold animators:
 
@@ -133,13 +133,13 @@ segue.destinationViewController.transitioningDelegate = self
  ```
 ---
 
-### TODO:
+## TODO:
 
 - [x] Setup basic Structure for project.
 - [x] Create demo views and make the relations.
 - [x] Create Required Classes and Protocols
 - [x] Add License file.
 - [x] Add Documentations.
-- [ ] Add screenshots.
+- [x] Add screenshots.
 - [ ] Add CI.
 - [x] Add Pod support.
