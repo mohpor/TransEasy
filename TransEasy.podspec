@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TransEasy'
-  s.version          = '0.5.0'
+  s.version          = '0.5.1'
   s.summary          = 'A simple way to have gorgeous transitions.'
 
 # This description is used to generate tags and improve search results.
