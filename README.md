@@ -123,11 +123,11 @@ segue.destinationViewController.transitioningDelegate = self
 
 ### TODO:
 
--[*] Setup basic Structure for project.
--[*] Create demo views and make the relations.
--[*] Create Required Classes and Protocols
--[*] Add License file.
--[*] Add Documentations.
--[ ] Add screenshots.
--[ ] Add CI.
--[*] Add Pod support.
+- [x] Setup basic Structure for project.
+- [x] Create demo views and make the relations.
+- [x] Create Required Classes and Protocols
+- [x] Add License file.
+- [x] Add Documentations.
+- [ ] Add screenshots.
+- [ ] Add CI.
+- [x] Add Pod support.
