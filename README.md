@@ -42,7 +42,7 @@ Clone or download this repo, add files inside `Source` folder to your project.
 
 In this method you will setup the transition inside the `prepareForSegue(_:sender)` using provided `UIViewController` extension.
 
-```Swift_2
+```swift
 override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
     guard let segueID = segue.identifier else {
@@ -68,7 +68,7 @@ override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 Alternatively, you can implement the `transitioningDelegate` yourself and just use the animator controller.
  * In your view controller add required properties to hold animators:
 
-```Swift_2
+```swift
 
     let presentAnimator: EasyPresentAnimationController = EasyPresentAnimationController()
     let dismissAnimator: EasyDismissAnimationController = EasyDismissAnimationController()    
@@ -76,16 +76,16 @@ Alternatively, you can implement the `transitioningDelegate` yourself and just u
 
 * In `prepareForSegue`, set the `transitioningDelegate`:
 
-```Swift_2
+```swift
 
 segue.destinationViewController.transitioningDelegate = self
 
 
 ```
 
- * Extend your view controller to use the **TransEasy** transitions:
+* Extend your view controller to use the **TransEasy** transitions:
 
- ```Swift_2
+ ```swift
 
  extension ViewController: UIViewControllerTransitioningDelegate {
 
