@@ -30,7 +30,7 @@ pod 'TransEasy'
 $ pod update
 ```
 
-#### Manual
+### Manual
 
 Clone or download this repo, add files inside `Source` folder to your project.
 

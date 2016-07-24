@@ -50,10 +50,10 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
     
     // Check the integrity of context
     guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),
-      let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey),
-      let containerView = transitionContext.containerView(),
-      let originView = originalView,
-      let destView = destinationView
+      toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey),
+      containerView = transitionContext.containerView(),
+      originView = originalView,
+      destView = destinationView
       else {
         print("Transition has not been setup!")
         return
@@ -153,10 +153,10 @@ public class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedT
     
     // Check the integrity of context
     guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),
-      let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey),
-      let containerView = transitionContext.containerView(),
-      let originView = originalView,
-      let destView = destinationView
+      toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey),
+      containerView = transitionContext.containerView(),
+      originView = originalView,
+      destView = destinationView
       else {
         print("Transition has not been setup!")
         return

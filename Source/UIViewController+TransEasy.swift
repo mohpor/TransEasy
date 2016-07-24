@@ -30,7 +30,7 @@
 import UIKit
 
 /// Holds a reference to the memory for associated delegate object.
-var PresentAssociatedHandler: UInt8 = 0
+var presentAssociatedHandler: UInt8 = 0
 
 /**
  *  A simple struct to encapsulate present transition's settings.
@@ -73,11 +73,11 @@ public extension UIViewController {
   /// The reference to the animator object. The `transitioningDelegate` of the `UIViewController` is of weak type therefore ot will be lost after setup.
   internal var easyTransDelegate: EasyPresentHelper? {
     get {
-      return objc_getAssociatedObject(self, &PresentAssociatedHandler) as? EasyPresentHelper
+      return objc_getAssociatedObject(self, &presentAssociatedHandler) as? EasyPresentHelper
     }
     
     set {
-      objc_setAssociatedObject(self, &PresentAssociatedHandler, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+      objc_setAssociatedObject(self, &presentAssociatedHandler, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
       
     }
   }
@@ -124,7 +124,7 @@ class EasyPresentHelper: NSObject, UIViewControllerTransitioningDelegate {
     
     /// If setup is not complete, this method will return nil allowing UIKit to use the default transition.
     guard let pOptions = presentOptions,
-    let pDestPro = presented as? TransEasyDestinationViewControllerProtocol
+    pDestPro = presented as? TransEasyDestinationViewControllerProtocol
       else {
       return nil
     }
@@ -142,7 +142,7 @@ class EasyPresentHelper: NSObject, UIViewControllerTransitioningDelegate {
     
     /// If setup is not complete, this method will return nil allowing UIKit to use the default transition.
     guard let dOption = dismissOptions,
-    let sDestPro = dismissed as? TransEasyDestinationViewControllerProtocol
+    sDestPro = dismissed as? TransEasyDestinationViewControllerProtocol
     else {
       return nil
     }

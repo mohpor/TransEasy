@@ -1,0 +1,16 @@
+disabled_rules: # rule identifiers to exclude from running
+  - trailing_whitespace  
+  - trailing_newline
+  - line_length
+  - function_body_length
+
+variable_name:
+  min_length: 2
+file_length:  
+    warning: 1000
+	error: 2000
+type_body_length:
+    warning: 1000
+use_nested_configs: true	
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - Build
