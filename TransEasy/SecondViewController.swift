@@ -51,10 +51,19 @@ class SecondViewController: UIViewController {
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
     return .LightContent
   }
+  override func canPerformUnwindSegueAction(action: Selector, fromViewController: UIViewController, withSender sender: AnyObject) -> Bool {
+    return true
+  }
   
+  override func unwindForSegue(unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
+    print("unwindng in Second controller")
+  }
+  override func segueForUnwindingToViewController(toViewController: UIViewController, fromViewController: UIViewController, identifier: String?) -> UIStoryboardSegue? {
+    print("unwindng override in Second Controller")
+    return nil
+  }
   
-  
-    
+ 
 }
 
 extension SecondViewController: TransEasyDestinationViewControllerProtocol {

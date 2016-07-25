@@ -31,7 +31,7 @@ import UIKit
 
 private let toSecondViewSegueID = "toSecondViewSegue"
 
-class FirstViewController: UIViewController {
+class FirstViewController: UIViewController, TransEasyDestinationViewControllerProtocol {
   
   @IBOutlet weak var qrButton: UIButton!
   @IBOutlet weak var qrLabel: UILabel!
@@ -48,7 +48,16 @@ class FirstViewController: UIViewController {
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
   }
-  
+  override func canPerformUnwindSegueAction(action: Selector, fromViewController: UIViewController, withSender sender: AnyObject) -> Bool {
+    return true
+  }
+  override func unwindForSegue(unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
+    print("unwindng in First Controller")
+  }
+  override func segueForUnwindingToViewController(toViewController: UIViewController, fromViewController: UIViewController, identifier: String?) -> UIStoryboardSegue? {
+    print("unwindng override in First Controller")
+    return nil
+  }
   @IBAction func qrButtonClicked(sender: AnyObject) {
     
     if isModal {
@@ -62,6 +71,16 @@ class FirstViewController: UIViewController {
         performSegueWithIdentifier(toSecondViewSegueID, sender: sender)
     }
     
+  }
+  @IBAction func getBack(segue: UIStoryboardSegue) {
+    guard let seg = segue as? TransEasySegue else {
+      return
+    }
+    
+//    seg.sourceView = qrImage
+  }
+  func transEasyDestinationView() -> UIView {
+    return qrButton
   }
   
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

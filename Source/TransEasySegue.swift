@@ -47,6 +47,11 @@ class TransEasySegue: UIStoryboardSegue {
     sourceV = sourceView
     else {
       print("Segue is not correctly prepared!")
+      if let navControl = sourceViewController.navigationController {
+      navControl.pushViewController(destinationViewController, animated: true)
+      } else {
+        sourceViewController.presentViewController(destinationViewController, animated: true, completion: nil)
+      }
       return
     }
     
@@ -109,3 +114,4 @@ class TransEasySegue: UIStoryboardSegue {
   }
 
 }
+

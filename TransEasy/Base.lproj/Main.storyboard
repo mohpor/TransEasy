@@ -6,10 +6,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Nav View Controller-->
         <scene sceneID="Vzo-wF-BtM">
             <objects>
-                <navigationController id="NeI-gI-1hk" sceneMemberID="viewController">
+                <navigationController id="NeI-gI-1hk" customClass="NavViewController" customModule="TransEasy" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="DtZ-CY-Dqy">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -120,7 +120,8 @@
                                     <color key="titleColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="closeButtonClicked:" destination="RGh-oX-UHi" eventType="touchUpInside" id="Uw9-Er-nHw"/>
+                                    <action selector="closeButtonClicked:" destination="RGh-oX-UHi" eventType="touchUpInside" id="gTK-wj-EBB"/>
+                                    <segue destination="qcr-RC-7MP" kind="unwind" customClass="TransEasySegue" customModule="TransEasy" customModuleProvider="target" unwindAction="getBack:" id="36O-rF-mxV"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="qr-200" translatesAutoresizingMaskIntoConstraints="NO" id="l8U-Ud-uv1">
@@ -161,6 +162,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x9a-nE-Toi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="qcr-RC-7MP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1694" y="625"/>
         </scene>
