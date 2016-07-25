@@ -67,8 +67,8 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
     // Prepares required snapshots.
     let finalFrame = destView.frame
     let originalFrame = originView.frame
-    let fromSnapshot = UIImageView(image: originView.snapshot())
-    let toSnapshot = UIImageView.init(image: destView.snapshot())
+    let fromSnapshot = originView.snapshot()
+    let toSnapshot = destView.snapshot()
     
     // Setup snapshot states before starting animations.
     fromSnapshot.alpha = 1.0
@@ -83,7 +83,7 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
     
     // Add blur style, in case a blur style has been set.
     if let blurStyle = blurEffectStyle {
-      let fromWholeSnapshot = UIImageView(image: fromVC.view.snapshot())
+      let fromWholeSnapshot = fromVC.view.snapshot()
       let effectView = UIVisualEffectView(effect: UIBlurEffect(style: blurStyle))
       effectView.frame = transitionContext.finalFrameForViewController(toVC)
       effectView.addSubview(fromWholeSnapshot)
@@ -166,7 +166,7 @@ public class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedT
     let finalFrame = destView.frame
     let originalFrame = originView.frame
     let fromSnapshot = originView.snapshotViewAfterScreenUpdates(false)
-    let toSnapshot = UIImageView.init(image: destView.snapshot())
+    let toSnapshot = destView.snapshot()
     
     
     // Setup initial state of the snapshots and other views.
@@ -179,7 +179,7 @@ public class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedT
     
     originView.hidden = true
     destView.hidden = true
-    let fromWholeSnapshot = UIImageView(image: fromVC.view.snapshot())    
+    let fromWholeSnapshot = fromVC.view.snapshot()    
     
     // Add views to transition's container view.
     containerView.addSubview(toVC.view)
@@ -228,12 +228,13 @@ public class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedT
 }
 
 // A handy extension to allow snapshotting views. Because UIView's snapshot method messes up auto-layout.
-private extension UIView {
-  func snapshot() -> UIImage {
+internal extension UIView {
+  func snapshot() -> UIImageView {
     UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0.0)
     layer.renderInContext(UIGraphicsGetCurrentContext()!)    
     let img = UIGraphicsGetImageFromCurrentImageContext()
-    return img
+    
+    return UIImageView(image: img)
     
   }
 }

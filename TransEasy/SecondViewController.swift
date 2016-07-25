@@ -38,7 +38,14 @@ class SecondViewController: UIViewController {
     }
 
     @IBAction func closeButtonClicked(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)        
+
+      if let navC = navigationController {
+        navC.popViewControllerAnimated(true)
+      } else {
+          dismissViewControllerAnimated(true, completion: nil)
+      }
+      
+      
     }
 
   override func preferredStatusBarStyle() -> UIStatusBarStyle {

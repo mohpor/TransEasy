@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="NeI-gI-1hk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="NeI-gI-1hk">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -72,11 +72,18 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="XG1-MS-aFE"/>
+                    <navigationItem key="navigationItem" id="XG1-MS-aFE">
+                        <barButtonItem key="rightBarButtonItem" title="Style: Push" id="7SJ-fN-kaj">
+                            <connections>
+                                <action selector="modalButtonClicked:" destination="DxS-xK-Zat" id="CX9-DN-dle"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="presentationStyleButton" destination="7SJ-fN-kaj" id="V5b-6x-gyY"/>
                         <outlet property="qrButton" destination="MOb-et-rhl" id="RTs-eT-Cug"/>
                         <outlet property="qrLabel" destination="y2u-4t-L1H" id="xaB-eb-eiq"/>
-                        <segue destination="RGh-oX-UHi" kind="presentation" identifier="toSecondViewSegue" id="PD4-5M-oRD"/>
+                        <segue destination="RGh-oX-UHi" kind="show" identifier="toSecondViewSegue" customClass="TransEasySegue" customModule="TransEasy" customModuleProvider="target" id="PD4-5M-oRD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ex0-fg-pck" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -86,7 +93,7 @@
         <!--Second View Controller-->
         <scene sceneID="MVX-aF-vRh">
             <objects>
-                <viewController id="RGh-oX-UHi" customClass="SecondViewController" customModule="TransEasy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="secondVC" id="RGh-oX-UHi" customClass="SecondViewController" customModule="TransEasy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oKu-IU-ITM"/>
                         <viewControllerLayoutGuide type="bottom" id="aoQ-Qj-0jS"/>
@@ -95,15 +102,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="qr-200" translatesAutoresizingMaskIntoConstraints="NO" id="l8U-Ud-uv1">
-                                <rect key="frame" x="200" y="32" width="200" height="200"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="7w8-Yq-ti3"/>
-                                    <constraint firstAttribute="height" constant="200" id="T6M-uT-IwT"/>
-                                </constraints>
-                            </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b4a-fq-aPJ">
-                                <rect key="frame" x="20" y="240" width="560" height="309"/>
+                                <rect key="frame" x="20" y="272" width="560" height="277"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -123,8 +123,15 @@
                                     <action selector="closeButtonClicked:" destination="RGh-oX-UHi" eventType="touchUpInside" id="Uw9-Er-nHw"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="qr-200" translatesAutoresizingMaskIntoConstraints="NO" id="l8U-Ud-uv1">
+                                <rect key="frame" x="200" y="64" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="7w8-Yq-ti3"/>
+                                    <constraint firstAttribute="height" constant="200" id="T6M-uT-IwT"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="x7g-B6-y9A" firstAttribute="top" secondItem="b4a-fq-aPJ" secondAttribute="bottom" constant="13" id="5TM-hp-ZSC"/>
                             <constraint firstItem="x7g-B6-y9A" firstAttribute="leading" secondItem="Z74-au-QW5" secondAttribute="leadingMargin" id="5Zs-vb-D5y"/>
@@ -137,9 +144,11 @@
                             <constraint firstItem="l8U-Ud-uv1" firstAttribute="top" secondItem="oKu-IU-ITM" secondAttribute="bottom" constant="32" id="X8g-cY-Tnp"/>
                             <constraint firstItem="b4a-fq-aPJ" firstAttribute="leading" secondItem="Z74-au-QW5" secondAttribute="leadingMargin" id="eN6-DO-opH"/>
                             <constraint firstItem="aoQ-Qj-0jS" firstAttribute="top" secondItem="x7g-B6-y9A" secondAttribute="bottom" constant="8" id="sUa-nM-aLW"/>
+                            <constraint firstItem="l8U-Ud-uv1" firstAttribute="top" secondItem="Z74-au-QW5" secondAttribute="top" constant="64" id="wbZ-P7-Tsu"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="PaN-oK-GqF"/>
                                 <exclude reference="X8g-cY-Tnp"/>
                                 <exclude reference="Mk7-GD-Mwo"/>
                             </mask>
