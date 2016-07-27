@@ -157,6 +157,6 @@ segue.destinationViewController.transitioningDelegate = self
 - [x] Add screenshots.
 - [ ] Add CI.
 - [x] Add Pod support.
-- [ ] Make Interactive.
-- [ ] Match Pop Animation to original animation.
-- [ ] Add Present transitioning options for TransEasy.
+- [ ] Make Transitions Interactive.
+- [ ] Match Pop Animation to the original animation.
+- [ ] Add Present transitioning options for Modal presentations.
