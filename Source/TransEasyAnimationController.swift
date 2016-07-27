@@ -59,6 +59,8 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
         return
     }
 
+    print("Easy Present")
+    
     // Prepares the presented view before moving on.
     toVC.view.frame = transitionContext.finalFrameForViewController(toVC)
     toVC.view.setNeedsDisplay()
@@ -161,7 +163,7 @@ public class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedT
         print("Transition has not been setup!")
         return
     }    
-    
+    print("Easy Dismiss")
     // Prepare required info fro transitions.
     let finalFrame = destView.frame
     let originalFrame = originView.frame
@@ -227,6 +229,99 @@ public class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedT
   
 }
 
+public class EasyPopAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+  
+  
+  // The source view dimiss transition starts from.
+  public var originalView: UIView?
+  // The view that dimiss will land to.
+  public var destinationView: UIView?
+  // Transitions duration.
+  public var duration: NSTimeInterval = 0.4
+  
+  public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    return duration
+  }
+  public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    
+    // Check the integrity of context
+    guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),
+      toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey),
+      containerView = transitionContext.containerView(),
+      originView = originalView,
+      destView = destinationView
+      else {
+        print("Transition has not been setup!")
+        return
+    }
+    print("Easy Pop")
+    // Prepare required info fro transitions.
+    let finalFrame = destView.frame
+    let originalFrame = originView.frame
+    let fromSnapshot = originView.snapshotViewAfterScreenUpdates(false)
+    let toSnapshot = destView.snapshot()
+    
+    
+    // Setup initial state of the snapshots and other views.
+    fromSnapshot.alpha = 1.0
+    toSnapshot.alpha = 0.0
+    fromVC.view.alpha = 1.0
+    toVC.view.alpha = 1.0
+    fromSnapshot.frame = originalFrame
+    toSnapshot.frame = originalFrame
+    
+    originView.hidden = true
+    destView.hidden = true
+    let fromWholeSnapshot = fromVC.view.snapshot()
+    
+    // Add views to transition's container view.
+    toVC.view.frame = toVC.view.frame.offsetBy(dx: -(toVC.view.frame.width / 3.0), dy: 0)
+    containerView.addSubview(toVC.view)
+    containerView.addSubview(fromWholeSnapshot)
+    containerView.addSubview(fromSnapshot)
+    containerView.addSubview(toSnapshot)
+    
+    
+    let duration = transitionDuration(transitionContext)
+    
+    // Transition's animation will be handled using keyframe.
+    UIView.animateKeyframesWithDuration(duration, delay: 0, options: [.CalculationModeCubicPaced], animations: {
+      
+      // The move transition.
+      UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 1, animations: {
+        fromSnapshot.frame = finalFrame
+        toSnapshot.frame = finalFrame
+//        fromWholeSnapshot.alpha = 0.0
+        fromWholeSnapshot.frame = fromWholeSnapshot.frame.offsetBy(dx: fromWholeSnapshot.frame.width, dy: 0)
+        toVC.view.frame.origin.x = 0
+      })
+      
+      // Fade animation from source to destination view.
+      UIView.addKeyframeWithRelativeStartTime(1/2, relativeDuration: 1/2, animations: {
+        fromSnapshot.alpha = 0.0
+        toSnapshot.alpha = 1.0
+      })
+      
+    }) { _ in
+      
+      // Wrap up final state of the transitions.
+      destView.layoutIfNeeded()
+      
+      destView.hidden = false
+      originView.hidden = false
+      
+      fromSnapshot.removeFromSuperview()
+      toSnapshot.removeFromSuperview()
+      fromWholeSnapshot.removeFromSuperview()
+      
+      transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+    }
+
+    
+  }
+  
+}
+
 // A handy extension to allow snapshotting views. Because UIView's snapshot method messes up auto-layout.
 internal extension UIView {
   func snapshot() -> UIImageView {
@@ -238,3 +333,4 @@ internal extension UIView {
     
   }
 }
+

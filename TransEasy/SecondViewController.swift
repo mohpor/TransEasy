@@ -30,40 +30,26 @@
 import UIKit
 
 class SecondViewController: UIViewController {
-
-    @IBOutlet weak var qrImage: UIImageView!
-    @IBOutlet weak var qrTextView: UITextView!
-    override func viewDidLoad() {
-        super.viewDidLoad()
+  
+  @IBOutlet weak var qrImage: UIImageView!
+  @IBOutlet weak var qrTextView: UITextView!
+  override func viewDidLoad() {
+    super.viewDidLoad()
+  }
+  
+  @IBAction func closeButtonClicked(sender: AnyObject) {
+    
+    if let navC = navigationController {
+      navC.popViewControllerAnimated(true)
+    } else {
+      dismissViewControllerAnimated(true, completion: nil)
     }
-
-    @IBAction func closeButtonClicked(sender: AnyObject) {
-
-      if let navC = navigationController {
-        navC.popViewControllerAnimated(true)
-      } else {
-          dismissViewControllerAnimated(true, completion: nil)
-      }
-      
-      
-    }
-
+  }
+  
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
     return .LightContent
   }
-  override func canPerformUnwindSegueAction(action: Selector, fromViewController: UIViewController, withSender sender: AnyObject) -> Bool {
-    return true
-  }
   
-  override func unwindForSegue(unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
-    print("unwindng in Second controller")
-  }
-  override func segueForUnwindingToViewController(toViewController: UIViewController, fromViewController: UIViewController, identifier: String?) -> UIStoryboardSegue? {
-    print("unwindng override in Second Controller")
-    return nil
-  }
-  
- 
 }
 
 extension SecondViewController: TransEasyDestinationViewControllerProtocol {

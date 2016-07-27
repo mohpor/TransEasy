@@ -37,9 +37,7 @@ class FirstViewController: UIViewController, TransEasyDestinationViewControllerP
   @IBOutlet weak var qrLabel: UILabel!
   @IBOutlet weak var presentationStyleButton: UIBarButtonItem!
   
-    var isModal = false
-  var easyPresentAnimationComtroller = EasyPresentAnimationController()
-  var easyDismissAnimationComtroller = EasyDismissAnimationController()
+  var modal = false
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -48,63 +46,27 @@ class FirstViewController: UIViewController, TransEasyDestinationViewControllerP
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
   }
-  override func canPerformUnwindSegueAction(action: Selector, fromViewController: UIViewController, withSender sender: AnyObject) -> Bool {
-    return true
-  }
-  override func unwindForSegue(unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
-    print("unwindng in First Controller")
-  }
-  override func segueForUnwindingToViewController(toViewController: UIViewController, fromViewController: UIViewController, identifier: String?) -> UIStoryboardSegue? {
-    print("unwindng override in First Controller")
-    return nil
-  }
   @IBAction func qrButtonClicked(sender: AnyObject) {
-    
-    if isModal {
-        guard let destinationViewController = storyboard?.instantiateViewControllerWithIdentifier("secondVC") else {
-            return
-        }
-        // This method adds easy trans to the SecondViewController using the provided options for present and dismiss.
-        setupEasyTransition(on: destinationViewController, presentOptions: TransEasyPresentOptions(duration: 0.4, sourceView: qrButton, blurStyle: UIBlurEffectStyle.Dark), dismissOptions: TransEasyDismissOptions(duration: 0.4, destinationView: qrButton))
-        presentViewController(destinationViewController, animated: true, completion: nil)
-    } else {
-        performSegueWithIdentifier(toSecondViewSegueID, sender: sender)
-    }
-    
-  }
-  @IBAction func getBack(segue: UIStoryboardSegue) {
-    guard let seg = segue as? TransEasySegue else {
+    guard let destinationViewController = storyboard?.instantiateViewControllerWithIdentifier("secondVC") else {
       return
     }
+    // This method adds easy trans to the SecondViewController using the provided options for present and dismiss.
+    setupEasyTransition(on: destinationViewController, presentOptions: TransEasyPresentOptions(duration: 0.4, sourceView: qrButton, blurStyle: UIBlurEffectStyle.Dark), dismissOptions: TransEasyDismissOptions(duration: 0.4, destinationView: qrButton))
+    if modal {
+      presentViewController(destinationViewController, animated: true, completion: nil)
+    } else {
+      performSegueWithIdentifier(toSecondViewSegueID, sender: sender)
+    }
     
-//    seg.sourceView = qrImage
   }
+  
   func transEasyDestinationView() -> UIView {
     return qrButton
   }
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    
-    guard let segueID = segue.identifier else {
-      print("Could not verify the segue's identity")
-      return
-    }
-    
-    switch segueID {
-    case toSecondViewSegueID:
-      if let easySeg = segue as? TransEasySegue {
-        easySeg.sourceView = qrButton
-        return
-      }
-    default:
-      print("Unknown segue!")
-    }
-    
+  @IBAction func modalButtonClicked(sender: AnyObject) {
+    modal = !modal
+    presentationStyleButton.title = "Style: " + (modal ? "Modal" : "Push")
   }
-    @IBAction func modalButtonClicked(sender: AnyObject) {
-        
-        isModal = !isModal
-        presentationStyleButton.title = "Style: " + (isModal ? "Modal" : "Push")
-    }
   
 }

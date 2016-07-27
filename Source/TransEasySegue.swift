@@ -29,22 +29,19 @@
 
 import UIKit
 
-class TransEasySegue: UIStoryboardSegue {
+public class TransEasySegue: UIStoryboardSegue {
   
-  var sourceView: UIView?
-  var destinationView: UIView?
+   var sourceView: UIView?
   
-  override func perform() {
-   
+  override public func perform() {
     
     let sourceOriginalFrame = sourceViewController.view.frame
     
     super.perform()
     
-    
     guard let transitionCoorrdinator = destinationViewController.transitionCoordinator(),
     secondVC = destinationViewController as? TransEasyDestinationViewControllerProtocol,
-    sourceV = sourceView
+    sourceV = sourceView ?? (sourceViewController as? TransEasyDestinationViewControllerProtocol)?.transEasyDestinationView()
     else {
       print("Segue is not correctly prepared!")
       if let navControl = sourceViewController.navigationController {
@@ -112,6 +109,6 @@ class TransEasySegue: UIStoryboardSegue {
     
     
   }
-
+  
 }
 

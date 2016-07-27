@@ -70,6 +70,8 @@ public struct TransEasyDismissOptions {
 
 public extension UIViewController {
   
+  
+  
   /// The reference to the animator object. The `transitioningDelegate` of the `UIViewController` is of weak type therefore ot will be lost after setup.
   internal var easyTransDelegate: EasyPresentHelper? {
     get {
@@ -97,18 +99,41 @@ public extension UIViewController {
     let transDel = EasyPresentHelper(presentOptions: presentOptions, dismissOptions: dismissOptions)
     easyTransDelegate = transDel
     targetViewController.transitioningDelegate = easyTransDelegate
+    self.navigationController?.delegate = transDel
     
   }
+ 
   
+  func isModal() -> Bool {
+    if self.presentingViewController != nil {
+      return true
+    }
+    
+    if self.presentingViewController?.presentedViewController == self {
+      return true
+    }
+    
+    if self.navigationController?.presentingViewController?.presentedViewController == self.navigationController {
+      return true
+    }
+    
+    if self.tabBarController?.presentingViewController is UITabBarController {
+      return true
+    }
+    
+    return false
+  }
 }
 
 /// A class that will act as animation controller for the view controllers.
-class EasyPresentHelper: NSObject, UIViewControllerTransitioningDelegate {
+class EasyPresentHelper: NSObject, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
   
   /// A lazy instance of `EasyPresentAnimationController` that will hold on to present animations.
   lazy var presentAnimator = EasyPresentAnimationController()
   /// A lazy instance of `EasyDismissAnimationController` that will hold on to dimiss animations.
   lazy var dismissAnimator = EasyDismissAnimationController()
+  
+  lazy var popAnimator = EasyPopAnimationController()
   
   /// The present options.
   let presentOptions: TransEasyPresentOptions?
@@ -156,7 +181,27 @@ class EasyPresentHelper: NSObject, UIViewControllerTransitioningDelegate {
     
   }
   
-  
+  func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    
+    guard operation == .Pop else {
+      return nil
+    }
+    
+    /// If setup is not complete, this method will return nil allowing UIKit to use the default transition.
+    guard let dOption = dismissOptions,
+      sDestPro = fromVC as? TransEasyDestinationViewControllerProtocol
+      else {
+        return nil
+    }
+    
+    // Setup animator's settings.
+    popAnimator.duration = dOption.duration
+    popAnimator.originalView = sDestPro.transEasyDestinationView()
+    popAnimator.destinationView = dOption.destinationView
+
+    return popAnimator
+    
+  }
 }
 
 /**
