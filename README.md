@@ -40,30 +40,29 @@ Clone or download this repo, add files inside `Source` folder to your project.
 
 ### Real easy approach:
 
-In this method you will setup the transition inside the `prepareForSegue(_:sender)` using provided `UIViewController` extension.
+In this method you will setup the EasyTrans very easily using a simple method and us it for both push transitions and modal presentations.
 
 ```swift
-override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+ func next() {
 
-    guard let segueID = segue.identifier else {
-      print("Could not verify the segue's identity")
+    guard let destinationViewController = storyboard?.instantiateViewControllerWithIdentifier("secondVC") else {
       return
-    }    
+    }
+    // This method adds easy trans to the SecondViewController using the provided options for present and dismiss.
 
-    switch segueID {
-    case toSecondViewSegueID:
+    setupEasyTransition(on: destinationViewController, presentOptions: TransEasyPresentOptions(duration: 0.4, sourceView: qrButton, blurStyle: UIBlurEffectStyle.Dark), dismissOptions: TransEasyDismissOptions(duration: 0.4, destinationView: qrButton))
 
-      // This method adds easy trans to the SecondViewController using the provided options for present and dismiss.
-      setupEasyTransition(on: segue.destinationViewController, presentOptions: TransEasyPresentOptions(duration: 0.4, sourceView: qrButton, blurStyle: UIBlurEffectStyle.Dark), dismissOptions: TransEasyDismissOptions(duration: 0.4, destinationView: qrButton))
-    default:
-      print("Unknown segue!")
+    if modal {
+      presentViewController(destinationViewController, animated: true, completion: nil)
+    } else {
+      performSegueWithIdentifier(toSecondViewSegueID, sender: sender)
     }
 
   }
 
 ```
 
-and in the destination view controller:
+In the destination view controller:
 
 ```swift
 extension SecondViewController: TransEasyDestinationViewControllerProtocol {
@@ -76,7 +75,19 @@ extension SecondViewController: TransEasyDestinationViewControllerProtocol {
 
 ```
 
-### Not so easy approach:
+And to be able to use TransEasy for pop transitions in source view controller:
+
+```swift
+
+func transEasyDestinationView() -> UIView {
+    return qrButton
+  }
+
+```
+
+
+
+### Not so easy approach (Modal Presentation Only):
 Alternatively, you can implement the `transitioningDelegate` yourself and just use the animator controller.
  * In your view controller add required properties to hold animators:
 
@@ -97,7 +108,9 @@ segue.destinationViewController.transitioningDelegate = self
 
 * Extend your view controller to use the **TransEasy** transitions:
 
+
  ```swift
+
 
  extension ViewController: UIViewControllerTransitioningDelegate {
 
@@ -131,6 +144,7 @@ segue.destinationViewController.transitioningDelegate = self
  }
 
  ```
+
 ---
 
 ## TODO:
