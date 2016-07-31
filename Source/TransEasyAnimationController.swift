@@ -103,7 +103,8 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
       let fromWholeSnapshot = fromVC.view.snapshot()
       let effectView = UIVisualEffectView(effect: UIBlurEffect(style: blurStyle))
       effectView.frame = transitionContext.finalFrameForViewController(toVC)
-      effectView.addSubview(fromWholeSnapshot)
+      effectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+      effectView.addSubview(fromWholeSnapshot)      
       toVC.view.insertSubview(fromWholeSnapshot, atIndex: 0)
       toVC.view.insertSubview(effectView, aboveSubview: fromWholeSnapshot)
   
