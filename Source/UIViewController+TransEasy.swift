@@ -97,7 +97,9 @@ public extension UIViewController {
   func setupEasyTransition(on targetViewController: UIViewController, presentOptions: TransEasyPresentOptions?, dismissOptions: TransEasyDismissOptions?) {
     
     let transDel = EasyPresentHelper(presentOptions: presentOptions, dismissOptions: dismissOptions)
+    transDel.interactiveAnimator.attach(to: targetViewController)
     easyTransDelegate = transDel
+    
     targetViewController.transitioningDelegate = easyTransDelegate
     self.navigationController?.delegate = transDel
     
@@ -134,6 +136,8 @@ class EasyPresentHelper: NSObject, UIViewControllerTransitioningDelegate, UINavi
   lazy var dismissAnimator = EasyDismissAnimationController()
   
   lazy var popAnimator = EasyPopAnimationController()
+  
+  lazy var interactiveAnimator = EasyInteractiveAnimationController()
   
   /// The present options.
   let presentOptions: TransEasyPresentOptions?
@@ -178,6 +182,15 @@ class EasyPresentHelper: NSObject, UIViewControllerTransitioningDelegate, UINavi
     dismissAnimator.destinationView = dOption.destinationView
     
     return dismissAnimator
+    
+  }
+  
+  func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    
+    
+    interactiveAnimator.panLength = presentAnimator.translation == 0.0 ? 200.0 : presentAnimator.translation
+    interactiveAnimator.horizontalGesture = presentAnimator.horizontal
+    return interactiveAnimator.isInteracting ? interactiveAnimator : nil
     
   }
   

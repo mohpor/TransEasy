@@ -41,6 +41,8 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
   /// The background's blur style. If nil, won't add blur effect.
   public var blurEffectStyle: UIBlurEffectStyle?
   
+  internal var translation: CGFloat = 0.0
+  internal var horizontal = true
   
   public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
     return duration
@@ -79,6 +81,19 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
     
     fromSnapshot.frame = originalFrame
     toSnapshot.frame = originalFrame
+    
+    let xTrans = fabs(originalFrame.minX - destView.frame.minX)
+    let yTrans = fabs(originalFrame.minY - destView.frame.minY)
+    
+    if xTrans > yTrans {
+      translation = xTrans
+      horizontal = true
+      
+    } else {
+      translation = yTrans
+      horizontal = false
+    }
+    
     
     destView.hidden = true
     originView.hidden = true
@@ -199,7 +214,11 @@ public class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedT
       UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 1, animations: {
         fromSnapshot.frame = finalFrame
         toSnapshot.frame = finalFrame
-        fromWholeSnapshot.alpha = 0.0
+        
+      })
+      
+      UIView.addKeyframeWithRelativeStartTime(1/4, relativeDuration: 3/4, animations: { 
+        fromWholeSnapshot.alpha = 0.0        
       })
       
       // Fade animation from source to destination view.
@@ -220,7 +239,13 @@ public class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedT
       toSnapshot.removeFromSuperview()
       fromWholeSnapshot.removeFromSuperview()
       
-      transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+      if transitionContext.transitionWasCancelled() {
+        containerView.addSubview(fromVC.view)
+        transitionContext.completeTransition(false)
+      } else {
+        transitionContext.completeTransition(true)
+      }
+      
     }
     
     
@@ -316,11 +341,78 @@ public class EasyPopAnimationController: NSObject, UIViewControllerAnimatedTrans
       
       transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
     }
-
     
   }
   
 }
+
+
+public class EasyInteractiveAnimationController: UIPercentDrivenInteractiveTransition {
+  
+  var isInteracting = false
+  var panLength: CGFloat = 200
+  var horizontalGesture = true
+  private var shouldFinish = false
+  private weak var targetController: UIViewController!
+  
+  
+  
+  public func attach(to controller: UIViewController) {
+    targetController = controller
+    prepareGesture(for: controller.view)
+  }
+  
+  private func prepareGesture(for view: UIView) {
+    let gesture = UIPanGestureRecognizer(target: self, action: #selector(handle(_:)))
+    view.addGestureRecognizer(gesture)
+  }
+  
+  @objc private func handle(gesture: UIPanGestureRecognizer) {
+    
+    
+    guard let superView = gesture.view?.superview else {
+      print("Gesture's not been correctly setup")
+      return
+    }
+  
+    guard panLength != 0 else {
+      print("panLength cannot be 0!")
+      return
+    }
+    
+    let translation = gesture.translationInView(superView)
+    var progress: CGFloat = fabs(((horizontalGesture ? translation.x : translation.y) / panLength))
+    progress = min(max(progress, 0.0), 1.0)
+    
+    switch gesture.state {
+    
+    case .Began:
+    isInteracting = true
+      targetController.dismissViewControllerAnimated(true, completion: nil)
+    case .Changed:
+      shouldFinish = progress > 0.5
+      updateInteractiveTransition(progress)
+    case .Ended:
+      
+      isInteracting = false
+      if !shouldFinish {
+        cancelInteractiveTransition()
+      } else {
+        finishInteractiveTransition()
+      }
+    case .Cancelled:
+      isInteracting = false
+      cancelInteractiveTransition()
+    default:
+      print("Gesture state invalid!")
+      return
+    }
+    
+    
+  }
+  
+}
+
 
 // A handy extension to allow snapshotting views. Because UIView's snapshot method messes up auto-layout.
 internal extension UIView {
