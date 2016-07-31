@@ -61,9 +61,12 @@ public struct TransEasyDismissOptions {
   /// The view dismiss transition animation will end on.
   public let destinationView: UIView
   
-  public init(duration: NSTimeInterval, destinationView: UIView) {
+  public var interactive = false
+  
+  public init(duration: NSTimeInterval, destinationView: UIView, interactive: Bool = false) {
     self.duration = duration
     self.destinationView = destinationView
+    self.interactive = interactive
   }
   
 }
@@ -97,8 +100,12 @@ public extension UIViewController {
   func setupEasyTransition(on targetViewController: UIViewController, presentOptions: TransEasyPresentOptions?, dismissOptions: TransEasyDismissOptions?) {
     
     let transDel = EasyPresentHelper(presentOptions: presentOptions, dismissOptions: dismissOptions)
-    transDel.interactiveAnimator.attach(to: targetViewController)
+
     easyTransDelegate = transDel
+
+    if true == dismissOptions?.interactive {
+      transDel.interactiveAnimator.attach(to: targetViewController)
+    }
     
     targetViewController.transitioningDelegate = easyTransDelegate
     self.navigationController?.delegate = transDel
