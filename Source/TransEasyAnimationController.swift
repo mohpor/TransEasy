@@ -41,7 +41,10 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
   /// The background's blur style. If nil, won't add blur effect.
   public var blurEffectStyle: UIBlurEffectStyle?
   
+  // Helps figuring the distance views has moved to better handle a possible pan gesture.
   internal var translation: CGFloat = 0.0
+  
+  // Indicates the translation is more horizontal or verticall. (will be replaced with diagonal distance soon.)
   internal var horizontal = true
   
   public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
@@ -240,6 +243,7 @@ public class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedT
       toSnapshot.removeFromSuperview()
       fromWholeSnapshot.removeFromSuperview()
       
+      // For interactive dismissal, we need to know if the transition was cancelled and revert the effect of transition causing source view to be removed from container view.
       if transitionContext.transitionWasCancelled() {
         containerView.addSubview(fromVC.view)
         transitionContext.completeTransition(false)
@@ -268,6 +272,7 @@ public class EasyPopAnimationController: NSObject, UIViewControllerAnimatedTrans
   public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
     return duration
   }
+  
   public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
     
     // Check the integrity of context
@@ -317,7 +322,6 @@ public class EasyPopAnimationController: NSObject, UIViewControllerAnimatedTrans
       UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 1, animations: {
         fromSnapshot.frame = finalFrame
         toSnapshot.frame = finalFrame
-//        fromWholeSnapshot.alpha = 0.0
         fromWholeSnapshot.frame = fromWholeSnapshot.frame.offsetBy(dx: fromWholeSnapshot.frame.width, dy: 0)
         toVC.view.frame.origin.x = 0
       })
@@ -348,26 +352,46 @@ public class EasyPopAnimationController: NSObject, UIViewControllerAnimatedTrans
 }
 
 
+/// Handles Interactive dismissal of Modally presented controllers.
 public class EasyInteractiveAnimationController: UIPercentDrivenInteractiveTransition {
   
+  /// Determines whether this instance is interactively dismissing a controller.
   var isInteracting = false
+  /// The amount of pixels user has to pan in order to dismiss the controller. (more than half would be conidered good enough)
   var panLength: CGFloat = 200
+  /// Determines whther the gesture should consider orizontal distance or vertical (Will be removed soon.)
   var horizontalGesture = true
+  /// Determines whether the transition must be finalized (If not cancelled or left before the good enough point in interaction.)
   private var shouldFinish = false
+  /// The view controller to add the interactive dismissal on.
   private weak var targetController: UIViewController!
-  
-  
-  
+
+  /**
+   Applies interactive dismissal to a view controller. uses the view's parameter for gesture recognizer.
+   
+   - parameter controller: the controller to add interactive dismissal to.
+   */
   public func attach(to controller: UIViewController) {
     targetController = controller
     prepareGesture(for: controller.view)
   }
   
+  /**
+   Prepares the required gestures to handle percent driven interactive transitions.
+   
+   - parameter view: The view to add the gesture to.
+   - Currently, we are using pan gesture to handle the touch events.
+   */
   private func prepareGesture(for view: UIView) {
     let gesture = UIPanGestureRecognizer(target: self, action: #selector(handle(_:)))
     view.addGestureRecognizer(gesture)
   }
   
+  /**
+   Handles the gesture's state change to update the transition's progress.
+   
+   - parameter gesture: The gesture events happened on.
+   */
   @objc private func handle(gesture: UIPanGestureRecognizer) {
     
     

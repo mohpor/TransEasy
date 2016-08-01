@@ -60,7 +60,10 @@ public struct TransEasyDismissOptions {
   public var duration: NSTimeInterval = 0.4
   /// The view dismiss transition animation will end on.
   public let destinationView: UIView
-  
+  /**
+   Indicates the dismiss action could be interactive.
+   - Please be advised that this is a simple suggestion. FOr now, if the presentation style is not modal (push, replace, etc...) this will not add an interactive dismissal.
+   */
   public var interactive = false
   
   public init(duration: NSTimeInterval, destinationView: UIView, interactive: Bool = false) {
@@ -72,8 +75,6 @@ public struct TransEasyDismissOptions {
 }
 
 public extension UIViewController {
-  
-  
   
   /// The reference to the animator object. The `transitioningDelegate` of the `UIViewController` is of weak type therefore ot will be lost after setup.
   internal var easyTransDelegate: EasyPresentHelper? {
@@ -112,7 +113,11 @@ public extension UIViewController {
     
   }
  
-  
+  /**
+   Determines if the presentatin is modal.
+   
+   - returns: true if is modally presented, false otherwise.
+   */
   func isModal() -> Bool {
     if self.presentingViewController != nil {
       return true
@@ -137,15 +142,14 @@ public extension UIViewController {
 /// A class that will act as animation controller for the view controllers.
 class EasyPresentHelper: NSObject, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
   
-  /// A lazy instance of `EasyPresentAnimationController` that will hold on to present animations.
+  /// A lazy instance of `EasyPresentAnimationController` that will hold on to present animation controller.
   lazy var presentAnimator = EasyPresentAnimationController()
-  /// A lazy instance of `EasyDismissAnimationController` that will hold on to dimiss animations.
+  /// A lazy instance of `EasyDismissAnimationController` that will hold on to dimiss animation controller.
   lazy var dismissAnimator = EasyDismissAnimationController()
-  
+  /// A lazy instance of `EasyPopAnimationController` that will hold on to pop animation.
   lazy var popAnimator = EasyPopAnimationController()
-  
+  /// A lazy `EasyInteractiveAnimationController` that will hold on to an interactive animation controller.
   lazy var interactiveAnimator = EasyInteractiveAnimationController()
-  
   /// The present options.
   let presentOptions: TransEasyPresentOptions?
   /// The dismiss options.
