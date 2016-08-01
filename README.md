@@ -50,7 +50,7 @@ In this method you will setup the EasyTrans very easily using a simple method an
     }
     // This method adds easy trans to the SecondViewController using the provided options for present and dismiss.
 
-    setupEasyTransition(on: destinationViewController, presentOptions: TransEasyPresentOptions(duration: 0.4, sourceView: qrButton, blurStyle: UIBlurEffectStyle.Dark), dismissOptions: TransEasyDismissOptions(duration: 0.4, destinationView: qrButton))
+    setupEasyTransition(on: destinationViewController, presentOptions: TransEasyPresentOptions(duration: 0.4, sourceView: qrButton, blurStyle: UIBlurEffectStyle.Dark), dismissOptions: TransEasyDismissOptions(duration: 0.4, destinationView: qrButton, interactive: true))
 
     if modal {
       presentViewController(destinationViewController, animated: true, completion: nil)
