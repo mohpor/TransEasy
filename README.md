@@ -21,11 +21,11 @@ This library will help easily customize your transitions (Modal and Push) so tha
 
 ### Cocoapods (Recommended)
 
-1. In your pod file add:
+1-  In your pod file add:
 ```
 pod 'TransEasy'
 ```
-2. In terminal:
+2-  In terminal:
 ```
 $ pod update
 ```
