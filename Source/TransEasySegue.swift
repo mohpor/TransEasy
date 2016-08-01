@@ -92,7 +92,6 @@ public class TransEasySegue: UIStoryboardSegue {
 
       containerView.bringSubviewToFront(destinationSnapshot)
       containerView.bringSubviewToFront(sourceSnapshot)
-
       
       sourceFullSnap.frame = self.sourceViewController.view.convertRect(self.sourceViewController.view.frame, toView: containerView)
       
