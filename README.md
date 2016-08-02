@@ -160,3 +160,4 @@ segue.destinationViewController.transitioningDelegate = self
 - [ ] Make Transitions Interactive.
 - [ ] Match Pop Animation to the original animation.
 - [ ] Add Present transitioning options for Modal presentations.
+- [ ] Add Delegate object and events for transitions.
