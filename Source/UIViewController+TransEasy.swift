@@ -199,8 +199,7 @@ class EasyPresentHelper: NSObject, UIViewControllerTransitioningDelegate, UINavi
   func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
     
     
-    interactiveAnimator.panLength = presentAnimator.translation == 0.0 ? 200.0 : presentAnimator.translation
-    interactiveAnimator.horizontalGesture = presentAnimator.horizontal
+    interactiveAnimator.panDistance = presentAnimator.transitionDistance == 0.0 ? 200.0 : presentAnimator.transitionDistance
     return interactiveAnimator.isInteracting ? interactiveAnimator : nil
     
   }

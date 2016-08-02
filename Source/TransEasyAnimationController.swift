@@ -42,10 +42,7 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
   public var blurEffectStyle: UIBlurEffectStyle?
   
   // Helps figuring the distance views has moved to better handle a possible pan gesture.
-  internal var translation: CGFloat = 0.0
-  
-  // Indicates the translation is more horizontal or verticall. (will be replaced with diagonal distance soon.)
-  internal var horizontal = true
+  internal var transitionDistance: CGFloat = 0.0
   
   public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
     return duration
@@ -87,16 +84,7 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
     
     let xTrans = fabs(originalFrame.minX - destView.frame.minX)
     let yTrans = fabs(originalFrame.minY - destView.frame.minY)
-    
-    if xTrans > yTrans {
-      translation = xTrans
-      horizontal = true
-      
-    } else {
-      translation = yTrans
-      horizontal = false
-    }
-    
+    transitionDistance = distance(of: CGPoint(x: xTrans, y: yTrans))
     
     destView.hidden = true
     originView.hidden = true
@@ -358,9 +346,7 @@ public class EasyInteractiveAnimationController: UIPercentDrivenInteractiveTrans
   /// Determines whether this instance is interactively dismissing a controller.
   var isInteracting = false
   /// The amount of pixels user has to pan in order to dismiss the controller. (more than half would be conidered good enough)
-  var panLength: CGFloat = 200
-  /// Determines whther the gesture should consider orizontal distance or vertical (Will be removed soon.)
-  var horizontalGesture = true
+  var panDistance: CGFloat = 200
   /// Determines whether the transition must be finalized (If not cancelled or left before the good enough point in interaction.)
   private var shouldFinish = false
   /// The view controller to add the interactive dismissal on.
@@ -400,13 +386,13 @@ public class EasyInteractiveAnimationController: UIPercentDrivenInteractiveTrans
       return
     }
   
-    guard panLength != 0 else {
+    guard panDistance != 0 else {
       print("panLength cannot be 0!")
       return
     }
     
     let translation = gesture.translationInView(superView)
-    var progress: CGFloat = fabs(((horizontalGesture ? translation.x : translation.y) / panLength))
+    var progress: CGFloat = distance(of: translation) / panDistance
     progress = min(max(progress, 0.0), 1.0)
     
     switch gesture.state {
@@ -433,11 +419,13 @@ public class EasyInteractiveAnimationController: UIPercentDrivenInteractiveTrans
       return
     }
     
-    
   }
   
 }
 
+internal func distance(of translation: CGPoint) -> CGFloat {
+  return hypot(translation.x, translation.y)
+}
 
 // A handy extension to allow snapshotting views. Because UIView's snapshot method messes up auto-layout.
 internal extension UIView {
