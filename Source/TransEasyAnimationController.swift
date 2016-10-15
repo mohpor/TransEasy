@@ -217,6 +217,7 @@ public class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedT
       UIView.addKeyframeWithRelativeStartTime(1/2, relativeDuration: 1/2, animations: {
         fromSnapshot.alpha = 0.0
         toSnapshot.alpha = 1.0
+        fromVC.view.alpha = 0.0
       })
       
     }) { _ in
@@ -318,6 +319,7 @@ public class EasyPopAnimationController: NSObject, UIViewControllerAnimatedTrans
       UIView.addKeyframeWithRelativeStartTime(1/2, relativeDuration: 1/2, animations: {
         fromSnapshot.alpha = 0.0
         toSnapshot.alpha = 1.0
+        fromVC.view.alpha = 0.0
       })
       
     }) { _ in
