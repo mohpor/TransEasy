@@ -37,34 +37,33 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
   /// The view that originalView will land to.
   public var destinationView: UIView?
   /// The duration of animation.
-  public var duration: NSTimeInterval = 0.4
+  public var duration: TimeInterval = 0.4
   /// The background's blur style. If nil, won't add blur effect.
   public var blurEffectStyle: UIBlurEffectStyle?
   
   // Helps figuring the distance views has moved to better handle a possible pan gesture.
   internal var transitionDistance: CGFloat = 0.0
   
-  public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+  public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
     return duration
   }
   
-  public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+  public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
     
     // Check the integrity of context
-    guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),
-      toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey),
-      containerView = transitionContext.containerView(),
-      originView = originalView,
-      destView = destinationView
+    guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
+      let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to),
+      let originView = originalView,
+      let destView = destinationView
       else {
         print("Transition has not been setup!")
         return
     }
-
+    let containerView = transitionContext.containerView
     print("Easy Present")
     
     // Prepares the presented view before moving on.
-    toVC.view.frame = transitionContext.finalFrameForViewController(toVC)
+    toVC.view.frame = transitionContext.finalFrame(for: toVC)
     toVC.view.setNeedsDisplay()
     toVC.view.layoutIfNeeded()
     
@@ -86,17 +85,17 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
     let yTrans = fabs(originalFrame.minY - destView.frame.minY)
     transitionDistance = distance(of: CGPoint(x: xTrans, y: yTrans))
     
-    destView.hidden = true
-    originView.hidden = true
+    destView.isHidden = true
+    originView.isHidden = true
     
     // Add blur style, in case a blur style has been set.
     if let blurStyle = blurEffectStyle {
       let fromWholeSnapshot = fromVC.view.snapshot()
       let effectView = UIVisualEffectView(effect: UIBlurEffect(style: blurStyle))
-      effectView.frame = transitionContext.finalFrameForViewController(toVC)
-      effectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+      effectView.frame = transitionContext.finalFrame(for: toVC)
+      effectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
       effectView.addSubview(fromWholeSnapshot)      
-      toVC.view.insertSubview(fromWholeSnapshot, atIndex: 0)
+      toVC.view.insertSubview(fromWholeSnapshot, at: 0)
       toVC.view.insertSubview(effectView, aboveSubview: fromWholeSnapshot)
   
     }
@@ -105,22 +104,21 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
     containerView.addSubview(toVC.view)
     containerView.addSubview(fromSnapshot)
     containerView.addSubview(toSnapshot)
-
     
-    let duration = transitionDuration(transitionContext)
+    let duration = transitionDuration(using: transitionContext)
     
     // Animations will be handled with keyframe animations.
-    UIView.animateKeyframesWithDuration(duration, delay: 0, options: [.CalculationModeCubicPaced], animations: {
+    UIView.animateKeyframes(withDuration: duration, delay: 0, options: [.calculationModeCubicPaced], animations: {
       
       // The move animation.
-      UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 1, animations: {
+      UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
         fromSnapshot.frame = finalFrame
         toSnapshot.frame = finalFrame
         toVC.view.alpha = 1.0
       })
       
       // Fades source view to destination.
-      UIView.addKeyframeWithRelativeStartTime(1/2, relativeDuration: 1/2, animations: {
+      UIView.addKeyframe(withRelativeStartTime: 1/2, relativeDuration: 1/2, animations: {
         fromSnapshot.alpha = 0.0
         toSnapshot.alpha = 1.0
       })
@@ -129,19 +127,17 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
       
       // Wrap up final state of the transition.
       destView.layoutIfNeeded()
-      destView.hidden = false
-      originView.hidden = false
+      destView.isHidden = false
+      originView.isHidden = false
 
       fromSnapshot.removeFromSuperview()
       toSnapshot.removeFromSuperview()
       
-      transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+      transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
     }
-    
-    
+
   }
 
-  
 }
 
 /// Handles animations reqired for the TransEasy Dismiss.
@@ -152,70 +148,68 @@ public class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedT
   // The view that dimiss will land to.
   public var destinationView: UIView?
   // Transitions duration.
-  public var duration: NSTimeInterval = 0.4
-  
-  public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+  public var duration: TimeInterval = 0.4
+
+  public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
     return duration
   }
-  
-  public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+
+  public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
     
     // Check the integrity of context
-    guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),
-      toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey),
-      containerView = transitionContext.containerView(),
-      originView = originalView,
-      destView = destinationView
+    guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
+      let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to),
+      let originView = originalView,
+      let destView = destinationView
       else {
         print("Transition has not been setup!")
         return
-    }    
+    }
+    let containerView = transitionContext.containerView
     print("Easy Dismiss")
     // Prepare required info fro transitions.
     let finalFrame = destView.frame
     let originalFrame = originView.frame
-    let fromSnapshot = originView.snapshotViewAfterScreenUpdates(false)
+    let fromSnapshot = originView.snapshotView(afterScreenUpdates: false)
     let toSnapshot = destView.snapshot()
-    
-    
+
     // Setup initial state of the snapshots and other views.
-    fromSnapshot.alpha = 1.0
+    fromSnapshot?.alpha = 1.0
     toSnapshot.alpha = 0.0
     fromVC.view.alpha = 1.0
     toVC.view.alpha = 1.0
-    fromSnapshot.frame = originalFrame
+    fromSnapshot?.frame = originalFrame
     toSnapshot.frame = originalFrame
     
-    originView.hidden = true
-    destView.hidden = true
+    originView.isHidden = true
+    destView.isHidden = true
     let fromWholeSnapshot = fromVC.view.snapshot()    
     
     // Add views to transition's container view.
     containerView.addSubview(toVC.view)
     containerView.addSubview(fromWholeSnapshot)
-    containerView.addSubview(fromSnapshot)
+    containerView.addSubview(fromSnapshot!)
     containerView.addSubview(toSnapshot)
 
-    
-    let duration = transitionDuration(transitionContext)
+    let duration = transitionDuration(using: transitionContext)
     
     // Transition's animation will be handled using keyframe.
-    UIView.animateKeyframesWithDuration(duration, delay: 0, options: [.CalculationModeCubicPaced], animations: {
+    UIView.animateKeyframes(withDuration: duration, delay: 0, options: [.calculationModeCubicPaced], animations: {
       
       // The move transition.
-      UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 1, animations: {
-        fromSnapshot.frame = finalFrame
+      UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
+        fromSnapshot?.frame = finalFrame
         toSnapshot.frame = finalFrame
         
       })
       
-      UIView.addKeyframeWithRelativeStartTime(1/4, relativeDuration: 3/4, animations: { 
+      UIView.addKeyframe(withRelativeStartTime: 1/4, relativeDuration: 3/4, animations: { 
         fromWholeSnapshot.alpha = 0.0        
       })
       
       // Fade animation from source to destination view.
-      UIView.addKeyframeWithRelativeStartTime(1/2, relativeDuration: 1/2, animations: {
-        fromSnapshot.alpha = 0.0
+      UIView.addKeyframe(withRelativeStartTime: 1/2, relativeDuration: 1/2, animations: {
+        fromSnapshot?.alpha = 0.0
         toSnapshot.alpha = 1.0
         fromVC.view.alpha = 0.0
       })
@@ -225,15 +219,15 @@ public class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedT
       // Wrap up final state of the transitions.
       destView.layoutIfNeeded()
       
-      destView.hidden = false
-      originView.hidden = false
+      destView.isHidden = false
+      originView.isHidden = false
       
-      fromSnapshot.removeFromSuperview()
+      fromSnapshot?.removeFromSuperview()
       toSnapshot.removeFromSuperview()
       fromWholeSnapshot.removeFromSuperview()
       
       // For interactive dismissal, we need to know if the transition was cancelled and revert the effect of transition causing source view to be removed from container view.
-      if transitionContext.transitionWasCancelled() {
+      if transitionContext.transitionWasCancelled {
         containerView.addSubview(fromVC.view)
         transitionContext.completeTransition(false)
       } else {
@@ -241,83 +235,78 @@ public class EasyDismissAnimationController: NSObject, UIViewControllerAnimatedT
       }
       
     }
-    
-    
+
   }
-  
-  
+
 }
 
 public class EasyPopAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
-  
-  
+
   // The source view dimiss transition starts from.
   public var originalView: UIView?
   // The view that dimiss will land to.
   public var destinationView: UIView?
   // Transitions duration.
-  public var duration: NSTimeInterval = 0.4
+  public var duration: TimeInterval = 0.4
   
-  public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+  public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
     return duration
   }
   
-  public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+  public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
     
     // Check the integrity of context
-    guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),
-      toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey),
-      containerView = transitionContext.containerView(),
-      originView = originalView,
-      destView = destinationView
+    guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
+      let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to),
+      let originView = originalView,
+      let destView = destinationView
       else {
         print("Transition has not been setup!")
         return
     }
+    let containerView = transitionContext.containerView
     print("Easy Pop")
     // Prepare required info fro transitions.
     let finalFrame = destView.frame
     let originalFrame = originView.frame
-    let fromSnapshot = originView.snapshotViewAfterScreenUpdates(false)
+    let fromSnapshot = originView.snapshotView(afterScreenUpdates: false)
     let toSnapshot = destView.snapshot()
-    
-    
+
     // Setup initial state of the snapshots and other views.
-    fromSnapshot.alpha = 1.0
+    fromSnapshot?.alpha = 1.0
     toSnapshot.alpha = 0.0
     fromVC.view.alpha = 1.0
     toVC.view.alpha = 1.0
-    fromSnapshot.frame = originalFrame
+    fromSnapshot?.frame = originalFrame
     toSnapshot.frame = originalFrame
     
-    originView.hidden = true
-    destView.hidden = true
+    originView.isHidden = true
+    destView.isHidden = true
     let fromWholeSnapshot = fromVC.view.snapshot()
     
     // Add views to transition's container view.
     toVC.view.frame = toVC.view.frame.offsetBy(dx: -(toVC.view.frame.width / 3.0), dy: 0)
     containerView.addSubview(toVC.view)
     containerView.addSubview(fromWholeSnapshot)
-    containerView.addSubview(fromSnapshot)
+    containerView.addSubview(fromSnapshot!)
     containerView.addSubview(toSnapshot)
-    
-    
-    let duration = transitionDuration(transitionContext)
+
+    let duration = transitionDuration(using: transitionContext)
     
     // Transition's animation will be handled using keyframe.
-    UIView.animateKeyframesWithDuration(duration, delay: 0, options: [.CalculationModeCubicPaced], animations: {
+    UIView.animateKeyframes(withDuration: duration, delay: 0, options: [.calculationModeCubicPaced], animations: {
       
       // The move transition.
-      UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 1, animations: {
-        fromSnapshot.frame = finalFrame
+      UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
+        fromSnapshot?.frame = finalFrame
         toSnapshot.frame = finalFrame
         fromWholeSnapshot.frame = fromWholeSnapshot.frame.offsetBy(dx: fromWholeSnapshot.frame.width, dy: 0)
         toVC.view.frame.origin.x = 0
       })
       
       // Fade animation from source to destination view.
-      UIView.addKeyframeWithRelativeStartTime(1/2, relativeDuration: 1/2, animations: {
-        fromSnapshot.alpha = 0.0
+      UIView.addKeyframe(withRelativeStartTime: 1/2, relativeDuration: 1/2, animations: {
+        fromSnapshot?.alpha = 0.0
         toSnapshot.alpha = 1.0
         fromVC.view.alpha = 0.0
       })
@@ -327,20 +316,19 @@ public class EasyPopAnimationController: NSObject, UIViewControllerAnimatedTrans
       // Wrap up final state of the transitions.
       destView.layoutIfNeeded()
       
-      destView.hidden = false
-      originView.hidden = false
+      destView.isHidden = false
+      originView.isHidden = false
       
-      fromSnapshot.removeFromSuperview()
+      fromSnapshot?.removeFromSuperview()
       toSnapshot.removeFromSuperview()
       fromWholeSnapshot.removeFromSuperview()
       
-      transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+      transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
     }
     
   }
   
 }
-
 
 /// Handles Interactive dismissal of Modally presented controllers.
 public class EasyInteractiveAnimationController: UIPercentDrivenInteractiveTransition {
@@ -380,9 +368,8 @@ public class EasyInteractiveAnimationController: UIPercentDrivenInteractiveTrans
    
    - parameter gesture: The gesture events happened on.
    */
-  @objc private func handle(gesture: UIPanGestureRecognizer) {
-    
-    
+  @objc private func handle(_ gesture: UIPanGestureRecognizer) {
+
     guard let superView = gesture.view?.superview else {
       print("Gesture's not been correctly setup")
       return
@@ -393,29 +380,29 @@ public class EasyInteractiveAnimationController: UIPercentDrivenInteractiveTrans
       return
     }
     
-    let translation = gesture.translationInView(superView)
+    let translation = gesture.translation(in: superView)
     var progress: CGFloat = distance(of: translation) / panDistance
     progress = min(max(progress, 0.0), 1.0)
     
     switch gesture.state {
     
-    case .Began:
+    case .began:
     isInteracting = true
-      targetController.dismissViewControllerAnimated(true, completion: nil)
-    case .Changed:
+      targetController.dismiss(animated: true, completion: nil)
+    case .changed:
       shouldFinish = progress > 0.5
-      updateInteractiveTransition(progress)
-    case .Ended:
+      update(progress)
+    case .ended:
       
       isInteracting = false
       if !shouldFinish {
-        cancelInteractiveTransition()
+        cancel()
       } else {
-        finishInteractiveTransition()
+        finish()
       }
-    case .Cancelled:
+    case .cancelled:
       isInteracting = false
-      cancelInteractiveTransition()
+      cancel()
     default:
       print("Gesture state invalid!")
       return
@@ -433,7 +420,7 @@ internal func distance(of translation: CGPoint) -> CGFloat {
 internal extension UIView {
   func snapshot() -> UIImageView {
     UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0.0)
-    layer.renderInContext(UIGraphicsGetCurrentContext()!)    
+    layer.render(in: UIGraphicsGetCurrentContext()!)    
     let img = UIGraphicsGetImageFromCurrentImageContext()
     
     return UIImageView(image: img)

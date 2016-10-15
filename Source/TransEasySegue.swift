@@ -38,30 +38,30 @@ public class TransEasySegue: UIStoryboardSegue {
   override public func perform() {
     
     // Keeping the original frame of the source controller for later use.
-    let sourceOriginalFrame = sourceViewController.view.frame
+    let sourceOriginalFrame = source.view.frame
     // Starts the actual transition, to generate the required info. We will take control of the transition later on.
     super.perform()
     
     // Find strong references to required objects, or bail on the transitioning if need be.
-    guard let transitionCoorrdinator = destinationViewController.transitionCoordinator(),
-    secondVC = destinationViewController as? TransEasyDestinationViewControllerProtocol,
-    sourceV = sourceView ?? (sourceViewController as? TransEasyDestinationViewControllerProtocol)?.transEasyDestinationView()
+    guard let transitionCoorrdinator = destination.transitionCoordinator,
+    let secondVC = destination as? TransEasyDestinationViewControllerProtocol,
+    let sourceV = sourceView ?? (source as? TransEasyDestinationViewControllerProtocol)?.transEasyDestinationView()
     else {
       // In case something is wrong with the transition, we will perform an appropriate transition animation just in case.
       print("Segue is not correctly prepared!")
-      if let navControl = sourceViewController.navigationController {
-      navControl.pushViewController(destinationViewController, animated: true)
+      if let navControl = source.navigationController {
+      navControl.pushViewController(destination, animated: true)
       } else {
-        sourceViewController.presentViewController(destinationViewController, animated: true, completion: nil)
+        source.present(destination, animated: true, completion: nil)
       }
       return
     }
     
     // Initalizes The view for the destination view controller. (Interestingly enough, this method will cause the destination view controller to be initialized too! should prevent from calling it, because it is causing double instantiations.)
-    destinationViewController.view.layoutIfNeeded()
+    destination.view.layoutIfNeeded()
     
     let destV = secondVC.transEasyDestinationView()
-    let containerView = transitionCoorrdinator.containerView()
+    let containerView = transitionCoorrdinator.containerView
     
     let originalFrame = sourceV.frame
     let destinationFrame = destV.frame
@@ -74,26 +74,26 @@ public class TransEasySegue: UIStoryboardSegue {
     destinationSnapshot.alpha = 0.0
     
     // Hide original views, while we work on snapshots.
-    destV.hidden = true
-    sourceV.hidden = true
+    destV.isHidden = true
+    sourceV.isHidden = true
     
-    let sourceFullSnap = sourceViewController.view.snapshot()
+    let sourceFullSnap = source.view.snapshot()
     sourceFullSnap.frame = sourceOriginalFrame
     
     containerView.addSubview(sourceFullSnap)
-    sourceViewController.view.hidden = true
+    source.view.isHidden = true
     
     // The order of these insertions are important, because that will be the way they are being rendered on top of each other.
     containerView.insertSubview(sourceSnapshot, aboveSubview: sourceFullSnap)
     containerView.insertSubview(destinationSnapshot, aboveSubview: sourceSnapshot)
 
     // This is where we start to animate alongside the tranition coordinator.
-    transitionCoorrdinator.animateAlongsideTransition({ (context) in
+    transitionCoorrdinator.animate(alongsideTransition: { (context) in
 
-      containerView.bringSubviewToFront(destinationSnapshot)
-      containerView.bringSubviewToFront(sourceSnapshot)
+      containerView.bringSubview(toFront: destinationSnapshot)
+      containerView.bringSubview(toFront: sourceSnapshot)
       
-      sourceFullSnap.frame = self.sourceViewController.view.convertRect(self.sourceViewController.view.frame, toView: containerView)
+      sourceFullSnap.frame = self.source.view.convert(self.source.view.frame, to: containerView)
       
       sourceSnapshot.frame = destinationFrame
       destinationSnapshot.frame = destinationFrame
@@ -106,12 +106,11 @@ public class TransEasySegue: UIStoryboardSegue {
         sourceSnapshot.removeFromSuperview()
         sourceFullSnap.removeFromSuperview()
         destinationSnapshot.removeFromSuperview()
-        destV.hidden = false
-        sourceV.hidden = false
-        self.sourceViewController.view.hidden = false
+        destV.isHidden = false
+        sourceV.isHidden = false
+        self.source.view.isHidden = false
         
     }
-    
     
   }
   
