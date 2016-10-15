@@ -37,7 +37,7 @@ class FirstViewController: UIViewController, TransEasyDestinationViewControllerP
   @IBOutlet weak var qrLabel: UILabel!
   @IBOutlet weak var presentationStyleButton: UIBarButtonItem!
   
-  var modal = false
+  var isSegueModal = false
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -46,16 +46,16 @@ class FirstViewController: UIViewController, TransEasyDestinationViewControllerP
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
   }
-  @IBAction func qrButtonClicked(sender: AnyObject) {
-    guard let destinationViewController = storyboard?.instantiateViewControllerWithIdentifier("secondVC") else {
+  @IBAction func qrButtonClicked(_ sender: AnyObject) {
+    guard let destinationViewController = storyboard?.instantiateViewController(withIdentifier: "secondVC") else {
       return
     }
     // This method adds easy trans to the SecondViewController using the provided options for present and dismiss.
-    setupEasyTransition(on: destinationViewController, presentOptions: TransEasyPresentOptions(duration: 0.4, sourceView: qrButton, blurStyle: UIBlurEffectStyle.Dark), dismissOptions: TransEasyDismissOptions(duration: 0.4, destinationView: qrButton, interactive: true))
-    if modal {
-      presentViewController(destinationViewController, animated: true, completion: nil)
+    setupEasyTransition(on: destinationViewController, presentOptions: TransEasyPresentOptions(duration: 0.4, sourceView: qrButton, blurStyle: UIBlurEffectStyle.dark), dismissOptions: TransEasyDismissOptions(duration: 0.4, destinationView: qrButton, interactive: true))
+    if isSegueModal {
+      present(destinationViewController, animated: true, completion: nil)
     } else {
-      performSegueWithIdentifier(toSecondViewSegueID, sender: sender)
+      performSegue(withIdentifier: toSecondViewSegueID, sender: sender)
     }
     
   }
@@ -64,9 +64,9 @@ class FirstViewController: UIViewController, TransEasyDestinationViewControllerP
     return qrButton
   }
   
-  @IBAction func modalButtonClicked(sender: AnyObject) {
-    modal = !modal
-    presentationStyleButton.title = "Style: " + (modal ? "Modal" : "Push")
+  @IBAction func modalButtonClicked(_ sender: AnyObject) {
+    isSegueModal = !isSegueModal
+    presentationStyleButton.title = "Style: " + (isSegueModal ? "Modal" : "Push")
   }
   
 }

@@ -38,13 +38,13 @@ var presentAssociatedHandler: UInt8 = 0
  */
 public struct TransEasyPresentOptions {
   /// The duration of the animation.
-  public var duration: NSTimeInterval = 0.4
+  public var duration: TimeInterval = 0.4
   /// The view present will start from.
   public let sourceView: UIView
   /// The blur effect to use as background. (If set as nil, won't add blur effect)
   public let blurStyle: UIBlurEffectStyle?
 
-  public init(duration: NSTimeInterval, sourceView: UIView, blurStyle: UIBlurEffectStyle? = nil) {
+  public init(duration: TimeInterval, sourceView: UIView, blurStyle: UIBlurEffectStyle? = nil) {
     self.duration = duration
     self.sourceView = sourceView
     self.blurStyle = blurStyle
@@ -57,7 +57,7 @@ public struct TransEasyPresentOptions {
  */
 public struct TransEasyDismissOptions {
   /// The duration of the animation.
-  public var duration: NSTimeInterval = 0.4
+  public var duration: TimeInterval = 0.4
   /// The view dismiss transition animation will end on.
   public let destinationView: UIView
   /**
@@ -66,7 +66,7 @@ public struct TransEasyDismissOptions {
    */
   public var interactive = false
   
-  public init(duration: NSTimeInterval, destinationView: UIView, interactive: Bool = false) {
+  public init(duration: TimeInterval, destinationView: UIView, interactive: Bool = false) {
     self.duration = duration
     self.destinationView = destinationView
     self.interactive = interactive
@@ -160,13 +160,13 @@ class EasyPresentHelper: NSObject, UIViewControllerTransitioningDelegate, UINavi
     self.dismissOptions = dismissOptions
   }
 
-  func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-    
+  func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
     /// If setup is not complete, this method will return nil allowing UIKit to use the default transition.
     guard let pOptions = presentOptions,
-    pDestPro = presented as? TransEasyDestinationViewControllerProtocol
+      let pDestPro = presented as? TransEasyDestinationViewControllerProtocol
       else {
-      return nil
+        return nil
     }
 
     // Setup animator's settings.
@@ -174,15 +174,15 @@ class EasyPresentHelper: NSObject, UIViewControllerTransitioningDelegate, UINavi
     presentAnimator.duration = pOptions.duration
     presentAnimator.originalView = pOptions.sourceView
     presentAnimator.destinationView = pDestPro.transEasyDestinationView()
-    
+
     return presentAnimator
+
   }
-  
-  func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-    
+
+  func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
     /// If setup is not complete, this method will return nil allowing UIKit to use the default transition.
     guard let dOption = dismissOptions,
-    sDestPro = dismissed as? TransEasyDestinationViewControllerProtocol
+    let sDestPro = dismissed as? TransEasyDestinationViewControllerProtocol
     else {
       return nil
     }
@@ -195,24 +195,23 @@ class EasyPresentHelper: NSObject, UIViewControllerTransitioningDelegate, UINavi
     return dismissAnimator
     
   }
-  
-  func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-    
+
+  func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
     
     interactiveAnimator.panDistance = presentAnimator.transitionDistance == 0.0 ? 200.0 : presentAnimator.transitionDistance
     return interactiveAnimator.isInteracting ? interactiveAnimator : nil
     
   }
-  
-  func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+  func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
     
-    guard operation == .Pop else {
+    guard operation == .pop else {
       return nil
     }
     
     /// If setup is not complete, this method will return nil allowing UIKit to use the default transition.
     guard let dOption = dismissOptions,
-      sDestPro = fromVC as? TransEasyDestinationViewControllerProtocol
+      let sDestPro = fromVC as? TransEasyDestinationViewControllerProtocol
       else {
         return nil
     }

@@ -37,17 +37,17 @@ class SecondViewController: UIViewController {
     super.viewDidLoad()
   }
   
-  @IBAction func closeButtonClicked(sender: AnyObject) {
+  @IBAction func closeButtonClicked(_ sender: AnyObject) {
     
     if let navC = navigationController {
-      navC.popViewControllerAnimated(true)
+      navC.popViewController(animated: true)
     } else {
-      dismissViewControllerAnimated(true, completion: nil)
+      dismiss(animated: true, completion: nil)
     }
   }
   
-  override func preferredStatusBarStyle() -> UIStatusBarStyle {
-    return .LightContent
+  override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
   }
   
 }
