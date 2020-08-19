@@ -90,8 +90,8 @@ public class TransEasySegue: UIStoryboardSegue {
     // This is where we start to animate alongside the tranition coordinator.
     transitionCoorrdinator.animate(alongsideTransition: { (context) in
 
-      containerView.bringSubview(toFront: destinationSnapshot)
-      containerView.bringSubview(toFront: sourceSnapshot)
+      containerView.bringSubviewToFront(destinationSnapshot)
+      containerView.bringSubviewToFront(sourceSnapshot)
       
       sourceFullSnap.frame = self.source.view.convert(self.source.view.frame, to: containerView)
       
