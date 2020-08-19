@@ -42,9 +42,9 @@ public struct TransEasyPresentOptions {
   /// The view present will start from.
   public let sourceView: UIView
   /// The blur effect to use as background. (If set as nil, won't add blur effect)
-  public let blurStyle: UIBlurEffectStyle?
+  public let blurStyle: UIBlurEffect.Style?
 
-  public init(duration: TimeInterval, sourceView: UIView, blurStyle: UIBlurEffectStyle? = nil) {
+  public init(duration: TimeInterval, sourceView: UIView, blurStyle: UIBlurEffect.Style? = nil) {
     self.duration = duration
     self.sourceView = sourceView
     self.blurStyle = blurStyle
@@ -203,7 +203,7 @@ class EasyPresentHelper: NSObject, UIViewControllerTransitioningDelegate, UINavi
     
   }
 
-  func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+  func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
     
     guard operation == .pop else {
       return nil

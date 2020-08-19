@@ -39,7 +39,7 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
   /// The duration of animation.
   public var duration: TimeInterval = 0.4
   /// The background's blur style. If nil, won't add blur effect.
-  public var blurEffectStyle: UIBlurEffectStyle?
+  public var blurEffectStyle: UIBlurEffect.Style?
   
   // Helps figuring the distance views has moved to better handle a possible pan gesture.
   internal var transitionDistance: CGFloat = 0.0
@@ -81,8 +81,8 @@ public class EasyPresentAnimationController: NSObject, UIViewControllerAnimatedT
     fromSnapshot.frame = originalFrame
     toSnapshot.frame = originalFrame
     
-    let xTrans = fabs(originalFrame.minX - destView.frame.minX)
-    let yTrans = fabs(originalFrame.minY - destView.frame.minY)
+    let xTrans = abs(originalFrame.minX - destView.frame.minX)
+    let yTrans = abs(originalFrame.minY - destView.frame.minY)
     transitionDistance = distance(of: CGPoint(x: xTrans, y: yTrans))
     
     destView.isHidden = true

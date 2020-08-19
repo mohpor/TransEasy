@@ -51,7 +51,7 @@ class FirstViewController: UIViewController, TransEasyDestinationViewControllerP
       return
     }
     // This method adds easy trans to the SecondViewController using the provided options for present and dismiss.
-    setupEasyTransition(on: destinationViewController, presentOptions: TransEasyPresentOptions(duration: 0.4, sourceView: qrButton, blurStyle: UIBlurEffectStyle.dark), dismissOptions: TransEasyDismissOptions(duration: 0.4, destinationView: qrButton, interactive: true))
+    setupEasyTransition(on: destinationViewController, presentOptions: TransEasyPresentOptions(duration: 0.4, sourceView: qrButton, blurStyle: UIBlurEffect.Style.dark), dismissOptions: TransEasyDismissOptions(duration: 0.4, destinationView: qrButton, interactive: true))
     if isSegueModal {
       present(destinationViewController, animated: true, completion: nil)
     } else {
