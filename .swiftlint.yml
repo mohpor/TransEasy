@@ -3,14 +3,14 @@ disabled_rules: # rule identifiers to exclude from running
   - trailing_newline
   - line_length
   - function_body_length
+  - multiple_closures_with_trailing_closure
 
-variable_name:
+identifier_name:
   min_length: 2
 file_length:  
-    warning: 1000
-	error: 2000
+  warning: 1000
+  error: 2000
 type_body_length:
-    warning: 1000
-use_nested_configs: true	
+  warning: 1000
 excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Build

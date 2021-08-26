@@ -28,9 +28,9 @@ Ever wanted to have that gorgeous zoom transition with your segues but hesitated
   s.source           = { :git => 'https://github.com/mohpor/TransEasy.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/mohpor'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '10.0'
 
-  s.source_files = 'Source/**/*'
+  s.source_files = 'Sources/TransEasy**/*'
   
   # s.resource_bundles = {
   #   'TransEasy' => ['TransEasy/Assets/*.png']
