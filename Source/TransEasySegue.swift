@@ -88,7 +88,7 @@ public class TransEasySegue: UIStoryboardSegue {
     containerView.insertSubview(destinationSnapshot, aboveSubview: sourceSnapshot)
 
     // This is where we start to animate alongside the tranition coordinator.
-    transitionCoorrdinator.animate(alongsideTransition: { (context) in
+    transitionCoorrdinator.animate(alongsideTransition: { _ in
 
       containerView.bringSubviewToFront(destinationSnapshot)
       containerView.bringSubviewToFront(sourceSnapshot)
@@ -101,7 +101,7 @@ public class TransEasySegue: UIStoryboardSegue {
       sourceSnapshot.alpha = 0.0
       destinationSnapshot.alpha = 1.0
       
-      }) { (context) in
+      }) { _ in
         
         sourceSnapshot.removeFromSuperview()
         sourceFullSnap.removeFromSuperview()
