@@ -13,9 +13,9 @@
 		113326D61D3DE48900D43634 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 113326D41D3DE48900D43634 /* LaunchScreen.storyboard */; };
 		113326E11D3E2DCE00D43634 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113326E01D3E2DCE00D43634 /* FirstViewController.swift */; };
 		113326E31D3E2DDC00D43634 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113326E21D3E2DDC00D43634 /* SecondViewController.swift */; };
-		113326E71D3E351500D43634 /* TransEasyAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113326E61D3E351500D43634 /* TransEasyAnimationController.swift */; };
-		115648221D45EF01006943B9 /* TransEasySegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115648211D45EF01006943B9 /* TransEasySegue.swift */; };
-		95515FD91D4124EB00A896DB /* UIViewController+TransEasy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95515FD81D4124EB00A896DB /* UIViewController+TransEasy.swift */; };
+		9517998B26D852C30013C64D /* TransEasyAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517998826D852C30013C64D /* TransEasyAnimationController.swift */; };
+		9517998C26D852C30013C64D /* UIViewController+TransEasy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517998926D852C30013C64D /* UIViewController+TransEasy.swift */; };
+		9517998D26D852C30013C64D /* TransEasySegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517998A26D852C30013C64D /* TransEasySegue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,9 +27,9 @@
 		113326D71D3DE48900D43634 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		113326E01D3E2DCE00D43634 /* FirstViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		113326E21D3E2DDC00D43634 /* SecondViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
-		113326E61D3E351500D43634 /* TransEasyAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransEasyAnimationController.swift; sourceTree = "<group>"; };
-		115648211D45EF01006943B9 /* TransEasySegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransEasySegue.swift; sourceTree = "<group>"; };
-		95515FD81D4124EB00A896DB /* UIViewController+TransEasy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+TransEasy.swift"; sourceTree = "<group>"; };
+		9517998826D852C30013C64D /* TransEasyAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransEasyAnimationController.swift; sourceTree = "<group>"; };
+		9517998926D852C30013C64D /* UIViewController+TransEasy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+TransEasy.swift"; sourceTree = "<group>"; };
+		9517998A26D852C30013C64D /* TransEasySegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransEasySegue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +46,7 @@
 		113326BF1D3DE48900D43634 = {
 			isa = PBXGroup;
 			children = (
-				113326DD1D3DEB0200D43634 /* Source */,
+				9517998626D852C30013C64D /* Sources */,
 				113326CA1D3DE48900D43634 /* TransEasy */,
 				113326C91D3DE48900D43634 /* Products */,
 			);
@@ -76,14 +76,22 @@
 			path = TransEasy;
 			sourceTree = "<group>";
 		};
-		113326DD1D3DEB0200D43634 /* Source */ = {
+		9517998626D852C30013C64D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				113326E61D3E351500D43634 /* TransEasyAnimationController.swift */,
-				95515FD81D4124EB00A896DB /* UIViewController+TransEasy.swift */,
-				115648211D45EF01006943B9 /* TransEasySegue.swift */,
+				9517998726D852C30013C64D /* TransEasy */,
 			);
-			path = Source;
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		9517998726D852C30013C64D /* TransEasy */ = {
+			isa = PBXGroup;
+			children = (
+				9517998826D852C30013C64D /* TransEasyAnimationController.swift */,
+				9517998926D852C30013C64D /* UIViewController+TransEasy.swift */,
+				9517998A26D852C30013C64D /* TransEasySegue.swift */,
+			);
+			path = TransEasy;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,10 +185,10 @@
 			files = (
 				113326E31D3E2DDC00D43634 /* SecondViewController.swift in Sources */,
 				113326CC1D3DE48900D43634 /* AppDelegate.swift in Sources */,
-				115648221D45EF01006943B9 /* TransEasySegue.swift in Sources */,
-				113326E71D3E351500D43634 /* TransEasyAnimationController.swift in Sources */,
+				9517998D26D852C30013C64D /* TransEasySegue.swift in Sources */,
 				113326E11D3E2DCE00D43634 /* FirstViewController.swift in Sources */,
-				95515FD91D4124EB00A896DB /* UIViewController+TransEasy.swift in Sources */,
+				9517998B26D852C30013C64D /* TransEasyAnimationController.swift in Sources */,
+				9517998C26D852C30013C64D /* UIViewController+TransEasy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
